@@ -4,19 +4,34 @@ import 'models/home_model.dart';
 import 'package:bustrackingapp/core/app_export.dart';
 import 'package:bustrackingapp/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // ignore: must_be_immutable
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key})
       : super(
           key: key,
         );
 
-  HomeController controller = Get.put(HomeController(HomeModel().obs));
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  HomeController controller = Get.put(HomeController(
+    HomeModel().obs,
+  ));
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
+    controller.getLocation();
+    // bool isMapCreated = true;
+
+    final current = LatLng(controller.lat, controller.lng);
+
+    // String currentLocaionApi =
+    //     'https://maps.googleapis.com/maps/api/staticmap?center=30.0070125,31.1467779&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:A%7C30.0070125,31.1467779&key=AIzaSyBVgvpedaj_6YtcZfTxI7UXzg0XhNqWc_Y';
 
     return WillPopScope(
       onWillPop: () async {
@@ -37,14 +52,51 @@ class HomePage extends StatelessWidget {
           child: Stack(
             alignment: Alignment.topCenter,
             children: [
-              CustomImageView(
-                imagePath: ImageConstant.imgRectangle4388,
-                height: double.infinity,
-                // height: getVerticalSize(773),
-                width: double.infinity,
-                // width: getHorizontalSize(414),
-                alignment: Alignment.topCenter,
+              // SizedBox(
+              //   width: double.infinity,
+              //   height: double.infinity,
+              //   child: GoogleMap(
+              //       initialCameraPosition: CameraPosition(target: current)),
+              // ),
+              Stack(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    color: Colors.white,
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: Text(
+                      'Map Loading...',
+                      style: TextStyle(fontSize: 35, color: Colors.grey),
+                    ),
+                  ),
+                  GoogleMap(
+                    onMapCreated: (con) {
+                      controller.mapsController = con;
+                    },
+                    initialCameraPosition: CameraPosition(
+                      target: current,
+                      zoom: 16,
+                    ),
+                    zoomControlsEnabled: false,
+                    markers: {
+                      Marker(
+                          markerId: MarkerId(
+                            'source',
+                          ),
+                          position: current),
+                    },
+                  )
+                ],
               ),
+              // CustomImageView(
+              //   imagePath: ImageConstant.imgRectangle4388,
+              //   height: double.infinity,
+              //   // height: getVerticalSize(773),
+              //   width: double.infinity,
+              //   // width: getHorizontalSize(414),
+              //   alignment: Alignment.topCenter,
+              // ),
               Align(
                 alignment: Alignment.center,
                 child: Column(
@@ -90,41 +142,52 @@ class HomePage extends StatelessWidget {
                               ),
                               // suffix: Container(),
                               enabled: false,
-                              onTap: (){
-
-
+                              onTap: () {
                                 print("called----bottomsheet");
 
-                                showModalBottomSheet(context: context,
+                                showModalBottomSheet(
+                                  context: context,
                                   isScrollControlled: true,
                                   backgroundColor: appTheme.whiteA700,
                                   barrierColor: Colors.transparent,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(getHorizontalSize(32)),topLeft: Radius.circular(getHorizontalSize(32)))),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(
+                                              getHorizontalSize(32)),
+                                          topLeft: Radius.circular(
+                                              getHorizontalSize(32)))),
                                   builder: (context) {
-                                  return HomeSearchScreen();
-                                },);
+                                    return HomeSearchScreen();
+                                  },
+                                );
                               },
                             ),
                             Spacer(),
                             Align(
                               alignment: Alignment.centerRight,
-                              child: Container(
-                                margin: getMargin(bottom: 30),
-                                height: getVerticalSize(54),
-                                width: getVerticalSize(54),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: theme.colorScheme.primary,
-                                ),
-                                child: Center(
-                                  child: CustomImageView(
-                                    svgPath: ImageConstant.imgGroup38172,
-
+                              child: InkWell(
+                                onTap: () {
+                                  controller.mapsController!.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                          CameraPosition(
+                                              target: current, zoom: 16)));
+                                },
+                                child: Container(
+                                  margin: getMargin(bottom: 30),
+                                  height: getVerticalSize(54),
+                                  width: getVerticalSize(54),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                  child: Center(
+                                    child: CustomImageView(
+                                      svgPath: ImageConstant.imgGroup38172,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                       ),
@@ -132,7 +195,6 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
         ),
