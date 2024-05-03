@@ -77,18 +77,23 @@ class ProfilePage extends StatelessWidget {
                         padding: getPadding(
                           top: 11,
                         ),
-                        child: Text(
-                          "lbl_ronald_richards".tr,
-                          style: CustomTextStyles.titleMediumMedium,textAlign: TextAlign.center,
+                        child: Obx(
+                          ()=> Text(
+                            controller.name.value,
+                            style: CustomTextStyles.titleMediumMedium,textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                       Padding(
                         padding: getPadding(
                           top: 7,
                         ),
-                        child: Text(
-                          "msg_ronaldrichards_gmail_com".tr,
-                          style: CustomTextStyles.bodyLarge_1,textAlign: TextAlign.center,
+                        child: Obx(
+                              ()=>
+                           Text(
+                            controller.email.value,
+                            style: CustomTextStyles.bodyLarge_1,textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
 

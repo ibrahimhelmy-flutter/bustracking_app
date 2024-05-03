@@ -1,3 +1,4 @@
+import '../../core/network/auth_service.dart';
 import 'controller/logout_controller.dart';
 import 'package:bustrackingapp/core/app_export.dart';
 import 'package:bustrackingapp/widgets/custom_elevated_button.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class LogoutScreen extends GetWidget<LogoutController> {
-  const LogoutScreen({Key? key})
+   LogoutScreen({Key? key})
       : super(
           key: key,
         );
@@ -106,13 +107,11 @@ class LogoutScreen extends GetWidget<LogoutController> {
   onTapNo() {
     Get.back();
   }
+  final _auth = AuthService();
 
+  onTapYes() async {
+  await  _auth.signout();
 
-  onTapYes() {
-
-    PrefUtils.setIsLogin(false);
-
-    Get.offAllNamed(AppRoutes.loginScreen);
 
   }
 }
