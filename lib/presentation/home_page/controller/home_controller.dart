@@ -14,12 +14,13 @@ class HomeController extends GetxController {
   HomeController(this.homeModelObj);
 
   TextEditingController searchController = TextEditingController();
+
   GoogleMapController? mapsController;
   Rx<HomeModel> homeModelObj;
 
   double lat = 40.6974881;
   double lng = -73.979681;
-  // bool iscomplete = false;
+  RxBool iscompleted = false.obs;
 
   @override
   void onClose() {
@@ -31,7 +32,6 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getLocation();
   }
 
   getLocation() async {
@@ -60,6 +60,6 @@ class HomeController extends GetxController {
 
     lat = currentLocaion.latitude!;
     lng = currentLocaion.longitude!;
-    // iscomplete = true;
+    iscompleted.value = true;
   }
 }

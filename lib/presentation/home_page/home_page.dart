@@ -21,17 +21,28 @@ class _HomePageState extends State<HomePage> {
   HomeController controller = Get.put(HomeController(
     HomeModel().obs,
   ));
+  bool iscompleted = false;
+  @override
+  void initState() {
+    super.initState();
+    controller.getLocation();
+    print('init');
+  }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    controller.getLocation();
-    // bool isMapCreated = true;
 
-    final current = LatLng(controller.lat, controller.lng);
-
+    var current = LatLng(controller.lat, controller.lng);
+    print(controller.lat);
     // String currentLocaionApi =
     //     'https://maps.googleapis.com/maps/api/staticmap?center=30.0070125,31.1467779&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:A%7C30.0070125,31.1467779&key=AIzaSyBVgvpedaj_6YtcZfTxI7UXzg0XhNqWc_Y';
+
+    // if (!(controller.lat == 0 && controller.lng == 0)) {
+    //   setState(() {
+    //     iscompleted = true;
+    //   });
+    // }
 
     return WillPopScope(
       onWillPop: () async {
@@ -60,33 +71,79 @@ class _HomePageState extends State<HomePage> {
               // ),
               Stack(
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    color: Colors.white,
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Text(
-                      'Map Loading...',
-                      style: TextStyle(fontSize: 35, color: Colors.grey),
-                    ),
-                  ),
-                  GoogleMap(
-                    onMapCreated: (con) {
-                      controller.mapsController = con;
-                    },
-                    initialCameraPosition: CameraPosition(
-                      target: current,
-                      zoom: 16,
-                    ),
-                    zoomControlsEnabled: false,
-                    markers: {
-                      Marker(
-                          markerId: MarkerId(
-                            'source',
+                  // Container(
+                  //   alignment: Alignment.center,
+                  //   color: Colors.white,
+                  //   height: double.infinity,
+                  //   width: double.infinity,
+                  //   child: Text(
+                  //     'Map Loading...',
+                  //     style: TextStyle(fontSize: 35, color: Colors.grey),
+                  //   ),
+                  // ),
+                  Obx(
+                    () => controller.iscompleted.value == true
+                        ? GoogleMap(
+                            onMapCreated: (con) {
+                              setState(() {});
+                              controller.mapsController = con;
+                            },
+                            initialCameraPosition: CameraPosition(
+                              target: current,
+                              zoom: 10,
+                            ),
+                            zoomControlsEnabled: false,
+                            markers: {
+                              Marker(
+                                  markerId: MarkerId(
+                                    'source',
+                                  ),
+                                  position: current),
+                            },
+                          )
+                        : Container(
+                            alignment: Alignment.center,
+                            color: Colors.white,
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: Text(
+                              'Map Loading...',
+                              style:
+                                  TextStyle(fontSize: 35, color: Colors.grey),
+                            ),
                           ),
-                          position: current),
-                    },
-                  )
+                  ),
+                  // controller.iscompleted == true.obs
+                  //     ?
+                  // iscompleted
+                  //     ?
+                  // GoogleMap(
+                  //   onMapCreated: (con) {
+                  //     controller.mapsController = con;
+                  //   },
+                  //   initialCameraPosition: CameraPosition(
+                  //     target: current,
+                  //     zoom: 8,
+                  //   ),
+                  //   zoomControlsEnabled: false,
+                  //   markers: {
+                  //     Marker(
+                  //         markerId: MarkerId(
+                  //           'source',
+                  //         ),
+                  //         position: current),
+                  //   },
+                  // )
+                  // : Container(
+                  //     alignment: Alignment.center,
+                  //     color: Colors.white,
+                  //     height: double.infinity,
+                  //     width: double.infinity,
+                  //     child: Text(
+                  //       'Map Loading...',
+                  //       style: TextStyle(fontSize: 35, color: Colors.grey),
+                  //     ),
+                  //   ),
                 ],
               ),
               // CustomImageView(
@@ -171,6 +228,8 @@ class _HomePageState extends State<HomePage> {
                                       CameraUpdate.newCameraPosition(
                                           CameraPosition(
                                               target: current, zoom: 16)));
+
+                                  // setState(() {});
                                 },
                                 child: Container(
                                   margin: getMargin(bottom: 30),
