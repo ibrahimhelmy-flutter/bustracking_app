@@ -59,7 +59,7 @@ class CustomElevatedButton extends BaseButton {
             overlayColor: (overlayColor != null)?MaterialStatePropertyAll(overlayColor):null
           ):ButtonStyle(elevation: MaterialStatePropertyAll(0)),
           onPressed: isDisabled ?? false ? null : onTap ?? () {},
-          child: Row(
+          child:isDisabled ?? false?CircularProgressIndicator(): Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

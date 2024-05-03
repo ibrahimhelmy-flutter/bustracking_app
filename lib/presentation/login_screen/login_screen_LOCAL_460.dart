@@ -71,7 +71,7 @@ class LoginScreen extends GetWidget<LoginController> {
                               return null;
                             },
                             obscureText: true),
-        /*                Align(
+                        Align(
                             alignment: Alignment.centerRight,
                             child: GestureDetector(
                                 onTap: () {
@@ -80,7 +80,6 @@ class LoginScreen extends GetWidget<LoginController> {
                                 child: Padding(
                                     padding: getPadding(top: 19),
                                     child: Text("msg_forgot_password".tr,
-<<<<<<< HEAD
                                         style: theme.textTheme.bodyLarge)))),
                         CustomElevatedButton(
                             text: "lbl_log_in".tr,
@@ -92,24 +91,6 @@ class LoginScreen extends GetWidget<LoginController> {
                                 onTapLogin();
                               }
                             }),
-=======
-                                        style: theme.textTheme.bodyLarge)))),*/
-                        Obx(
-                          ()=> Center(
-                            child: CustomElevatedButton(
-                                text: "lbl_log_in".tr,
-                                margin: getMargin(top: 42),
-                                isDisabled: controller.isLoading.value,
-                                onTap: () {
-                                  if(_formKey.currentState!.validate()){
-
-                                    controller.login();
-                                  }
-
-                                }),
-                          ),
-                        ),
->>>>>>> 2766f50af182261e63f41897e56ad0b5b47d16da
 /*                        Align(
                             alignment: Alignment.center,
                             child: Container(
@@ -202,25 +183,16 @@ class LoginScreen extends GetWidget<LoginController> {
 
   /// When the action is triggered, this function uses the [Get] package to
   /// push the named route for the loginForgotPasswordScreen.
-<<<<<<< HEAD
   onTapTxtForgotpassword() {
     // Get.toNamed(
     //   AppRoutes.loginForgotPasswordScreen,
     // );
   }
-=======
-  // onTapTxtForgotpassword() {
-  //   Get.toNamed(
-  //     AppRoutes.loginForgotPasswordScreen,
-  //   );
-  // }
->>>>>>> 2766f50af182261e63f41897e56ad0b5b47d16da
 
   /// Navigates to the homeContainerScreen when the action is triggered.
 
   /// When the action is triggered, this function uses the [Get] package to
   /// push the named route for the homeContainerScreen.
-<<<<<<< HEAD
   onTapLogin() {
     PrefUtils.setIsLogin(true);
 
@@ -228,14 +200,4 @@ class LoginScreen extends GetWidget<LoginController> {
       AppRoutes.homeContainerScreen,
     );
   }
-=======
-  // onTapLogin() {
-  //
-  //   PrefUtils.setIsLogin(true);
-  //
-  //   Get.toNamed(
-  //     AppRoutes.homeContainerScreen,
-  //   );
-  // }
->>>>>>> 2766f50af182261e63f41897e56ad0b5b47d16da
 }

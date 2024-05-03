@@ -1,4 +1,3 @@
-import '../../fortry.dart';
 import '../../widgets/widget_utils.dart';
 import 'controller/login_controller.dart';
 import 'package:bustrackingapp/core/app_export.dart';
@@ -19,18 +18,20 @@ class LoginScreen extends GetWidget<LoginController> {
     mediaQueryData = MediaQuery.of(context);
     return WillPopScope(
       onWillPop: () async {
+
         exitApp();
         return false;
       },
       child: Scaffold(
-          appBar: getNoneAppBar(),
+        appBar: getNoneAppBar(),
           resizeToAvoidBottomInset: false,
           backgroundColor: appTheme.whiteA700,
           body: Form(
               key: _formKey,
               child: Container(
                   width: double.maxFinite,
-                  padding: getPadding(left: 16, top: 33, right: 16, bottom: 33),
+                  padding:
+                      getPadding(left: 16, top: 33, right: 16, bottom: 33),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -45,7 +46,8 @@ class LoginScreen extends GetWidget<LoginController> {
                             controller: controller.emailController,
                             margin: getMargin(top: 36),
                             hintText: "lbl_email_address".tr,
-                            hintStyle: CustomTextStyles.bodyLargeErrorContainer,
+                            hintStyle:
+                                CustomTextStyles.bodyLargeErrorContainer,
                             textInputType: TextInputType.emailAddress,
                             validator: (value) {
                               if (value == null ||
@@ -58,20 +60,22 @@ class LoginScreen extends GetWidget<LoginController> {
                             controller: controller.passwordController,
                             margin: getMargin(top: 24),
                             hintText: "lbl_password".tr,
-                            hintStyle: CustomTextStyles.bodyLargeErrorContainer,
+                            hintStyle:
+                                CustomTextStyles.bodyLargeErrorContainer,
                             textInputAction: TextInputAction.done,
                             textInputType: TextInputType.visiblePassword,
                             validator: (value) {
                               // if (value == null ||
                               //     (!isValidPassword(value,
                               //         isRequired: true))) {
-                              if (value == null || (value.length < 8)) {
+                                if (value == null ||
+                                    (value.length < 8)) {
                                 return "Please enter valid password";
                               }
                               return null;
                             },
                             obscureText: true),
-        /*                Align(
+                        Align(
                             alignment: Alignment.centerRight,
                             child: GestureDetector(
                                 onTap: () {
@@ -80,36 +84,18 @@ class LoginScreen extends GetWidget<LoginController> {
                                 child: Padding(
                                     padding: getPadding(top: 19),
                                     child: Text("msg_forgot_password".tr,
-<<<<<<< HEAD
                                         style: theme.textTheme.bodyLarge)))),
                         CustomElevatedButton(
                             text: "lbl_log_in".tr,
                             margin: getMargin(top: 42),
                             onTap: () {
-                              if (_formKey.currentState!.validate()) {
+                              if(_formKey.currentState!.validate()){
                                 controller.emailController.clear();
                                 controller.passwordController.clear();
                                 onTapLogin();
                               }
+
                             }),
-=======
-                                        style: theme.textTheme.bodyLarge)))),*/
-                        Obx(
-                          ()=> Center(
-                            child: CustomElevatedButton(
-                                text: "lbl_log_in".tr,
-                                margin: getMargin(top: 42),
-                                isDisabled: controller.isLoading.value,
-                                onTap: () {
-                                  if(_formKey.currentState!.validate()){
-
-                                    controller.login();
-                                  }
-
-                                }),
-                          ),
-                        ),
->>>>>>> 2766f50af182261e63f41897e56ad0b5b47d16da
 /*                        Align(
                             alignment: Alignment.center,
                             child: Container(
@@ -179,7 +165,7 @@ class LoginScreen extends GetWidget<LoginController> {
                             child: Padding(
                                 padding: getPadding(bottom: 8),
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: (){
                                     Get.toNamed(AppRoutes.signUpScreen);
                                   },
                                   child: RichText(
@@ -202,40 +188,22 @@ class LoginScreen extends GetWidget<LoginController> {
 
   /// When the action is triggered, this function uses the [Get] package to
   /// push the named route for the loginForgotPasswordScreen.
-<<<<<<< HEAD
   onTapTxtForgotpassword() {
-    // Get.toNamed(
-    //   AppRoutes.loginForgotPasswordScreen,
-    // );
+    Get.toNamed(
+      AppRoutes.loginForgotPasswordScreen,
+    );
   }
-=======
-  // onTapTxtForgotpassword() {
-  //   Get.toNamed(
-  //     AppRoutes.loginForgotPasswordScreen,
-  //   );
-  // }
->>>>>>> 2766f50af182261e63f41897e56ad0b5b47d16da
 
   /// Navigates to the homeContainerScreen when the action is triggered.
 
   /// When the action is triggered, this function uses the [Get] package to
   /// push the named route for the homeContainerScreen.
-<<<<<<< HEAD
   onTapLogin() {
+
     PrefUtils.setIsLogin(true);
 
     Get.toNamed(
       AppRoutes.homeContainerScreen,
     );
   }
-=======
-  // onTapLogin() {
-  //
-  //   PrefUtils.setIsLogin(true);
-  //
-  //   Get.toNamed(
-  //     AppRoutes.homeContainerScreen,
-  //   );
-  // }
->>>>>>> 2766f50af182261e63f41897e56ad0b5b47d16da
 }

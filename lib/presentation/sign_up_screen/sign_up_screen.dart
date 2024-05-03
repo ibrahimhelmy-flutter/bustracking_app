@@ -99,7 +99,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                                   }
                                   return null;
                                 }),
-                            CustomTextFormField(
+                        /*    CustomTextFormField(
                                 controller: controller.phoneNumberController,
                                 margin: getMargin(top: 16),
                                 hintText: "lbl_phone_number".tr,
@@ -114,7 +114,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                                   //   return "Please enter valid phone number";
                                   // }
                                   return null;
-                                }),
+                                }),*/
                             Obx(() => CustomTextFormField(
                                 controller: controller.passwordController,
                                 margin: getMargin(top: 16),
@@ -166,14 +166,18 @@ class SignUpScreen extends GetWidget<SignUpController> {
                                 onChange: (value) {
                                   controller.agreementText.value = value;
                                 })),
-                            CustomElevatedButton(
-                                text: "lbl_sign_up".tr,
-                                margin: getMargin(top: 40),
-                                onTap: () {
-                                  if(_formKey.currentState!.validate()){
-                                    onTapSignup();
-                                  }
-                                }),
+                            Obx(
+                              ()=> CustomElevatedButton(
+                                  text: "lbl_sign_up".tr,
+                                  margin: getMargin(top: 40),
+                                  isDisabled: controller.isLoading.value,
+                                  onTap: () {
+
+                                    if(_formKey.currentState!.validate()){
+                                     controller.signup(context);
+                                    }
+                                  }),
+                            ),
                       /*      Align(
                                 alignment: Alignment.center,
                                 child: Container(
