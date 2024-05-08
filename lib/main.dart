@@ -38,32 +38,7 @@ Future<void> main() async {
   });
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
 
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: theme,
-      translations: AppLocalization(),
-      locale: Get.deviceLocale, //for setting localization strings
-      fallbackLocale: Locale('en', 'US'),
-      title: 'bustrackingapp',
-      initialBinding: InitialBindings(),
-      initialRoute: AppRoutes.loginScreen,
-      // initialRoute: AppRoutes.initialRoute,
-      onGenerateRoute: (settings) {
-        return AppRoutes.routesFactory(settings);
-      },
-      // getPages: AppRoutes.pages,
-      builder: FToastBuilder(),
-      // home: MyApp(),
-      // navigatorKey: navigatorKey,
-
-    );
-  }
-}
 initServices() async {
   log('starting services ...');
 

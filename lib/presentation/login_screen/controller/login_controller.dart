@@ -24,6 +24,7 @@ class LoginController extends GetxController {
 
   login() async {
     isLoading(true);
+
     final user =
     await _auth.loginUserWithEmailAndPassword(emailController.text, passwordController.text);
     isLoading(false);

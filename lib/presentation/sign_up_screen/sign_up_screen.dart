@@ -99,7 +99,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                                   }
                                   return null;
                                 }),
-                        /*    CustomTextFormField(
+                            CustomTextFormField(
                                 controller: controller.phoneNumberController,
                                 margin: getMargin(top: 16),
                                 hintText: "lbl_phone_number".tr,
@@ -114,7 +114,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                                   //   return "Please enter valid phone number";
                                   // }
                                   return null;
-                                }),*/
+                                }),
                             Obx(() => CustomTextFormField(
                                 controller: controller.passwordController,
                                 margin: getMargin(top: 16),

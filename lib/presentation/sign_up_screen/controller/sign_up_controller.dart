@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:bustrackingapp/core/app_export.dart';
+import 'package:bustrackingapp/core/network/user_model.dart';
 import 'package:bustrackingapp/presentation/sign_up_screen/models/sign_up_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../core/network/auth_service.dart';
 
@@ -13,7 +13,7 @@ import '../../../core/network/auth_service.dart';
 /// current signUpModelObj
 class SignUpController extends GetxController {
   final _auth = AuthService();
-RxBool isLoading =false.obs;
+  RxBool isLoading = false.obs;
 
   TextEditingController firstNameController = TextEditingController();
 
@@ -29,11 +29,14 @@ RxBool isLoading =false.obs;
 
   Rx<bool> agreementText = false.obs;
 
-
   signup(context) async {
     isLoading(true);
-    final user =
-    await _auth.createUserWithEmailAndPassword(firstNameController.text,emailController.text, passwordController.text,context);
+    UserModel thisUser = UserModel(
+        fullName: firstNameController.text,
+        email: emailController.text,
+        phoneNo: phoneNumberController.text,
+        password: passwordController.text);
+    final user = await _auth.createUserWithEmailAndPassword(user: thisUser);
     isLoading(false);
     if (user != null) {
       log("User Created Succesfully");

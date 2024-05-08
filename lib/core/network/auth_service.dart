@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:bustrackingapp/core/app_export.dart';
+import 'package:bustrackingapp/core/network/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,17 +10,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final _auth = FirebaseAuth.instance;
+  final _db = FirebaseFirestore.instance;
 
   // Method to create a user with email and password
   Future<User?> createUserWithEmailAndPassword(
-      String name, String email, String password, BuildContext context) async {
+      {required UserModel user}) async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: user.email,
+        password: user.password,
       );
-     await saveUserName( name);
-      await saveUserEmail( email);
+      await createUser(user: user);
+      await saveUserName(user.fullName);
+      await saveUserEmail(user.email);
       return userCredential.user;
       // User created successfully, do something if needed
     } on FirebaseAuthException catch (e) {
@@ -47,24 +52,12 @@ class AuthService {
     return null;
   }
 
-/*  Future<User?> createUserWithEmailAndPassword(
-      String email, String password) async {
-    try {
-      final cred = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      return cred.user;
-    } catch (e) {
-      log("Something went wrong");
-    }
-    return null;
-  }*/
-
   Future<User?> loginUserWithEmailAndPassword(
       String email, String password) async {
     try {
       final cred = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-     await saveUserEmail( email);
+      await saveUserEmail(email);
       return cred.user;
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Error $e';
@@ -91,6 +84,7 @@ class AuthService {
     }
     return null;
   }
+
   Future<void> signout() async {
     try {
       await _auth.signOut();
@@ -105,18 +99,34 @@ class AuthService {
   Future<void> saveUserName(String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('userName', name);
-  }  Future<void> saveUserEmail(String name) async {
+  }
+
+  Future<void> saveUserEmail(String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('email', name);
   }
 
-/*  Future<String> getStringFromPreferences(String key) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return (prefs.getString(key)) ?? "";
+  createUser({required UserModel user}) async {
+    await _db
+        .collection("users")
+        .add(user.toJSON())
+        .whenComplete(() => Get.snackbar(
+            "Success", "Your user has been created",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.green.withOpacity(0.1),
+            colorText: Colors.green))
+        .catchError((error, stack) {
+      Get.snackbar("Error", "Something went wrong. Try Again",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.redAccent.withOpacity(0.1),
+          colorText: Colors.red);
+    });
   }
 
-  Future<void> saveStringToPreferences(String key, String value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, value);
-  }*/
+  Future<UserModel> getUser({required String email}) async {
+    final snapshot =
+        await _db.collection("users").where("email", isEqualTo: email).get();
+  final user = await snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
+  return user;
+  }
 }

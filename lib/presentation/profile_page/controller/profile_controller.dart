@@ -26,7 +26,8 @@ class ProfileController extends GetxController {
   Future<String?> getUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('userName');
-  }  Future<String?> getUseremail() async {
+  }
+  Future<String?> getUseremail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('email');
   }
