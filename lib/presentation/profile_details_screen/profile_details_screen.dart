@@ -44,16 +44,16 @@ class ProfileDetailsScreen extends GetWidget<ProfileDetailsController> {
                                   text: "lbl_profile_details".tr,
                                   margin: getMargin(left: 16)),
                               actions: [
-                                AppbarImage1(
-                                    svgPath: ImageConstant.imgLink,
-                                    margin: getMargin(
-                                        left: 16,
-                                        top: 4,
-                                        right: 16,
-                                        bottom: 2),
-                                    onTap: () {
-                                      onTapLinkone();
-                                    })
+                                // AppbarImage1(
+                                //     svgPath: ImageConstant.imgLink,
+                                //     margin: getMargin(
+                                //         left: 16,
+                                //         top: 4,
+                                //         right: 16,
+                                //         bottom: 2),
+                                //     onTap: () {
+                                //       onTapLinkone();
+                                //     })
                               ])),
                       Expanded(
                         child: Container(
